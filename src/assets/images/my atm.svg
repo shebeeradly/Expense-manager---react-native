@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="46" fill="none" viewBox="0 0 45 46">
+  <rect width="44.344" height="44.344" x=".014" y=".78" fill="url(#a)" rx="14"/>
+  <rect width="44.344" height="44.344" x=".014" y=".78" fill="#000" fill-opacity=".2" rx="14"/>
+  <mask id="b" width="29" height="29" x="8" y="8" maskUnits="userSpaceOnUse" style="mask-type:alpha">
+    <path fill="#D9D9D9" d="M8.186 8.951h28v28h-28z"/>
+  </mask>
+  <g mask="url(#b)">
+    <path fill="#fff" d="M33.27 16.301v13.3c0 .584-.205 1.08-.613 1.488a2.025 2.025 0 0 1-1.487.612H13.203c-.583 0-1.08-.204-1.488-.612a2.025 2.025 0 0 1-.612-1.488v-13.3c0-.583.204-1.079.612-1.487a2.025 2.025 0 0 1 1.488-.613H31.17c.583 0 1.079.205 1.487.613.408.408.613.904.613 1.487Zm-20.417 2.45H31.52v-2.45c0-.077-.04-.155-.117-.233-.078-.078-.156-.117-.233-.117H13.203c-.078 0-.156.04-.233.117-.078.078-.117.156-.117.233v2.45Zm0 3.734V29.6c0 .078.039.156.117.234.077.078.155.116.233.116H31.17c.077 0 .155-.038.233-.116.078-.078.117-.156.117-.234v-7.116H12.853Z"/>
+  </g>
+  <defs>
+    <linearGradient id="a" x1="-12.206" x2="60.823" y1="-12.682" y2="-4.855" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA00FF"/>
+      <stop offset="1" stop-color="#4081FF"/>
+    </linearGradient>
+  </defs>
+</svg>
