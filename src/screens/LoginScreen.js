@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, TextInput } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Login from '../assets/images/Login.svg';
 import Mail from '../assets/images/Mail.svg';
 import Seperator from '../components/Seperator';
-import { Fonts } from '../constants';
+import { Colors, Fonts } from '../constants';
 import Display from '../utils/Display';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle='dark-content'
@@ -15,19 +15,58 @@ const LoginScreen = () => {
       <View style={styles.splashcontainer}>
         <Login style={styles.splashcolor} />
 
-        <Seperator height={70} />
+        <Seperator height={100} />
         <Mail height={Display.setHeight(17)}
-          width={Display.setWidth(25)} />
+          width={Display.setWidth(23)} />
         <Text style={styles.welText}>Welcome back!</Text>
 
-        <Seperator height={70} />
+        <Seperator height={100} />
+
         <LinearGradient
           start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
-          style={styles.linearGradient}>
-          <Text style={styles.buttonText}>
-            LOG IN
-          </Text>
+          style={styles.emailInput}>
+          <View style={styles.inputContainer}>
+            <TextInput placeholder='Enter Mail Id'
+              placeholderTextColor={Colors.DARK_FIVE}
+              style={styles.txtInput} />
+          </View>
         </LinearGradient>
+
+        <Seperator height={20} />
+
+        <LinearGradient
+          start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
+          style={styles.emailInput}>
+          <View style={styles.inputContainer}>
+            <TextInput placeholder='Enter Password'
+              placeholderTextColor={Colors.DARK_FIVE}
+              secureTextEntry={true}
+              style={styles.txtInput} />
+          </View>
+        </LinearGradient>
+        <Seperator height={20} />
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Screen1')}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
+            style={styles.logButton}>
+            <Text style={styles.logBtnTxt}>LOG IN</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <Seperator height={20} />
+        <TouchableOpacity>
+          <Text style={styles.forgTouchTxt}>Forgot Password?</Text>
+        </TouchableOpacity>
+
+        <Seperator height={100} />
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Signup')} >
+          <Text style={styles.accountText}>Don't have an account?</Text>
+          <Text style={styles.logText}>SIGN UP</Text>
+        </TouchableOpacity>
 
       </View>
     </View>
@@ -67,7 +106,60 @@ const styles = StyleSheet.create({
     color: '#9007FC',
     fontSize: 20,
     textAlign: 'center'
-  }
+  },
+  emailInput: {
+    backgroundColor: Colors.SECONDARY_GREEN,
+    marginHorizontal: 20,
+    height: Display.setHeight(7),
+    width: Display.setWidth(77),
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  inputContainer: {
+    backgroundColor: Colors.DEFAULT_WHITE,
+    height: Display.setHeight(6.5),
+    width: Display.setWidth(75.5),
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  txtInput: {
+    width: Display.setWidth(75),
+    textAlign: 'center'
+  },
+  logButton: {
+    backgroundColor: Colors.SECONDARY_GREEN,
+    marginHorizontal: 20,
+    height: Display.setHeight(7),
+    width: Display.setWidth(77),
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  logBtnTxt: {
+    color: Colors.SECONDARY_WHITE,
+    fontSize: 15,
+    fontFamily: Fonts.POPPINS_MEDIUM
+  },
+  forgTouchTxt: {
+    textAlign: 'center',
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    color: Colors.DARK_FIVE,
+    fontSize: 13
+  },
+  accountText: {
+    textAlign: 'center',
+    fontSize: 10,
+    color: Colors.DARK_FIVE,
+    fontFamily: Fonts.POPPINS_MEDIUM
+  },
+  logText: {
+    color: Colors.DARK_FIVE,
+    textAlign: 'center',
+    fontSize: 17,
+    fontFamily: Fonts.POPPINS_MEDIUM
+  },
 
 });
 

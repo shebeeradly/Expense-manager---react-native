@@ -8,7 +8,7 @@ import Display from '../utils/Display';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts } from '../constants';
 
-const SplashScreen = ({navigation}) => {
+const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" />
@@ -17,9 +17,9 @@ const SplashScreen = ({navigation}) => {
 
         <Seperator height={70} />
         <TouchableOpacity
-        onPress={() => navigation.navigate('Signup')} >
+          onPress={() => navigation.navigate('Signup')} >
           <Expenselogo height={Display.setHeight(55)}
-           width={Display.setWidth(55)} />
+            width={Display.setWidth(55)} />
         </TouchableOpacity>
 
         <Seperator height={30} />
@@ -31,20 +31,20 @@ const SplashScreen = ({navigation}) => {
         <Seperator height={25} />
         <View>
           <TouchableOpacity
-          onPress={() => navigation.navigate('Signup')}
-           style={styles.signContainer}>
+            onPress={() => navigation.navigate('Signup')}
+            style={styles.signContainer}>
             <Text style={styles.signText}>SIGN UP</Text>
           </TouchableOpacity>
         </View>
 
         <Seperator height={25} />
-        <View>
-            <TouchableOpacity
-            onPress={() => navigation.navigate('Login')} >
-              <Text style={styles.accountText}>Already have an account?</Text>
-              <Text style={styles.logText}>LOG IN</Text>
-            </TouchableOpacity>
-          </View>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Login')} >
+          <Text style={styles.accountText}>Already have an account?</Text>
+          <Text style={styles.logText}>LOG IN</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );
