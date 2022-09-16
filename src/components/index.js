@@ -1,3 +1,4 @@
+import ItemCard from "./ItemCard";
 import Seperator from "./Seperator";
 
-export { Seperator };
+export { Seperator, ItemCard };
