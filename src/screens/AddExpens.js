@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
 import {
-  View, Text, StyleSheet, StatusBar, TouchableOpacity, FlatList, TextInput
+  View, Text, StyleSheet, StatusBar, TouchableOpacity, FlatList, Image
 } from 'react-native';
 import { CatogeryCard, GradientText, Seperator } from '../components';
 import moment from 'moment';
-import { Colors, Fonts } from '../constants';
+import { Colors, Fonts, Images } from '../constants';
 import Display from '../utils/Display';
 import Addexp from '../assets/images/addexp.svg';
+import Keybords from '../components/Keybords';
+import Close from '../assets/images/close.svg';
 
 const category =
   ["School", "Grocery", "Milk", "Supermarket", "Beverages", "Fish", "Medicine", "Clothes"]
@@ -16,14 +18,6 @@ const AddExpens = () => {
   const [salary, setSalary] = useState(0);
   const [expense, setExpense] = useState(0);
   const [activeC, setActiveC] = useState("School")
-
-  const inputRef = useRef(null);
-  const setRefValue = v => {
-    const clean = v.replace(/[^0-9]/g, '');
-    inputRef.current.value = clean;
-    inputRef.current.setNativeProps({ text: clean });
-  };
-
 
   return (
     <View style={styles.container}>
@@ -49,10 +43,10 @@ const AddExpens = () => {
           <Text style={styles.inrText}>INR</Text>
         </View>
       </View>
-      
+
       <Seperator height={10} />
       <View style={styles.flatContainer}>
-      <Seperator height={10} />
+        <Seperator height={10} />
         <FlatList
           data={category}
           keyExtractor={(item) => item}
@@ -97,11 +91,20 @@ const AddExpens = () => {
         </TouchableOpacity>
       </View>
 
-      <TextInput
-        ref={inputRef}
-        keyboardType='numeric'
-        onChangeText={setExpense}
-      />
+      <Keybords onPress={setExpense} />
+      <View style={styles.finalContaier}>
+        <TouchableOpacity
+          style={styles.closeTouch}>
+          <Close height={40} width={40} />
+        </TouchableOpacity>
+        <Seperator width={20} />
+        <TouchableOpacity style={styles.finalAddTouch}>
+          <Image source={Images.TIC} width={15} height={15} />
+          <Seperator width={17} />
+          <Text style={styles.finalTxt}>Add Expense</Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 };
@@ -206,6 +209,32 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_MEDIUM,
     fontSize: 12,
     lineHeight: 12 * 1.4
+  },
+  finalContaier: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    top: -30
+  },
+  closeTouch: {
+    backgroundColor: '#FDCCCC',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  finalAddTouch: {
+    backgroundColor: '#9AFBA9',
+    paddingHorizontal: 50,
+    borderRadius: 10,
+    paddingVertical: 5,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  finalTxt: {
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+    color: Colors.DARK_ONE
   }
 });
 
