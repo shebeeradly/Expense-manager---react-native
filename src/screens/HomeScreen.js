@@ -40,10 +40,10 @@ const HomeScreen = ({ navigation }) => {
             style={styles.dotBox}>
           </LinearGradient>
 
-
           <Text style={styles.expText}>EXPENSES</Text>
         </TouchableOpacity>
-        <TouchableOpacity >
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AddExpens')}>
           <Text style={styles.accText}>ACCOUNTS</Text>
         </TouchableOpacity>
       </View>
@@ -169,7 +169,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.cardTxt}>My Wallet</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('AddExpens')} >
+            onPress={() => navigation.navigate('Adexp')} >
             <Addexpns />
             <Text style={styles.finalTxt}>Add Expense</Text>
           </TouchableOpacity>

@@ -30,8 +30,7 @@ const DetailScreen = ({ navigation }) => {
 
           <Text style={styles.expText}>EXPENSES</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AddExpens')} >
+        <TouchableOpacity >
           <Text style={styles.accText}>ACCOUNTS</Text>
         </TouchableOpacity>
       </View>
@@ -39,12 +38,12 @@ const DetailScreen = ({ navigation }) => {
       <View style={styles.account}>
         <Seperator height={10} />
         <Camount style={styles.accountContainer} />
-        
+
         <View style={styles.alignContainer} >
           <Text style={styles.salaryText}>Salary : {salary}</Text>
           <Text style={styles.dateText}>{moment().format('MMMM')}</Text>
         </View>
-        
+
 
 
         <View style={styles.mainAmount}>
@@ -54,15 +53,26 @@ const DetailScreen = ({ navigation }) => {
         </View>
 
       </View>
-      <Seperator height={30} />
+      <Seperator height={20} />
+      <View style={styles.listHeaderContainer}>
+        <Seperator width={70} />
+        <Text style={styles.listHeaderTxt}>Items</Text>
+        <Seperator width={70} />
+        <View style={styles.listDateContainer}>
+          <Text style={styles.listHeaderTxt}>Date</Text>
+        </View>
+        <Seperator width={10} />
+        <Text style={styles.listHeaderTxt}>Amount</Text>
+      </View>
+      <Seperator height={3} />
+      <FlatList
+        data={General.ITEM_CONTENTS}
+        keyExtractor={(item, index) => {
+          return  index.toString();
+         }}
+        renderItem={({ item }) => <ItemCard {...item} />}
+      />
 
-      
-        <FlatList
-          data={General.ITEM_CONTENTS}
-          keyExtractor={item => item.items}
-          renderItem={({ item }) => <ItemCard {...item} />}
-        />
-     
     </View>
   );
 };
@@ -155,6 +165,22 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: Fonts.POPPINS_MEDIUM,
   },
+  listHeaderContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#9007FC',
+    height: 40,
+    alignItems: 'center'
+  },
+  listHeaderTxt: {
+    color: Colors.DEFAULT_WHITE,
+    fontFamily: Fonts.POPPINS_MEDIUM
+  },
+  listDateContainer: {
+    backgroundColor: '#AB83FF',
+    height: 40,
+    justifyContent: 'center',
+    paddingHorizontal: 30
+  }
 });
 
 export default DetailScreen;

@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 function Screen1() {
   return (
-    <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}} >
+    <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}} backBehavior="initialRoute" >
       <Tab.Screen name="Setting" component={SettingScreen} 
       options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
         <Icosettings width={30} height={30} />

@@ -1,4 +1,5 @@
 import AddExpens from "./AddExpens";
+import Adexp from "./Adexp";
 import DetailScreen from "./DetailScreen";
 import HomeScreen from "./HomeScreen";
 import LoginScreen from "./LoginScreen";
@@ -9,5 +10,5 @@ import SplashScreen from "./SplashScreen";
 
 export { 
     SplashScreen, LoginScreen, SignupScreen, AddExpens, DetailScreen,
-     SettingScreen, HomeScreen, ShareScreen
+     SettingScreen, HomeScreen, ShareScreen, Adexp
  };

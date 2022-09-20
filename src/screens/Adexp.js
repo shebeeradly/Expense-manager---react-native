@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View, Text, StyleSheet, StatusBar, TouchableOpacity, FlatList, Image
 } from 'react-native';
@@ -8,11 +8,12 @@ import { Colors, Fonts, Images } from '../constants';
 import Display from '../utils/Display';
 import Addexp from '../assets/images/addexp.svg';
 import Keybords from '../components/Keybords';
+import Close from '../assets/images/close.svg';
 
 const category =
     ["School", "Grocery", "Milk", "Supermarket", "Beverages", "Fish", "Medicine", "Clothes"]
 
-const AddExpens = () => {
+const Adexp = ({ navigation }) => {
 
     const [salary, setSalary] = useState(0);
     const [expense, setExpense] = useState(0);
@@ -25,7 +26,7 @@ const AddExpens = () => {
                 backgroundColor={Colors.DEFAULT_WHITE} />
             <Seperator height={StatusBar.currentHeight} />
             <Seperator height={20} />
-            <GradientText style={styles.textStyle}>Add Expense</GradientText>
+            <Text style={styles.textStyle}>Add Expense</Text>
             <Seperator height={10} />
             <View style={styles.account}>
                 <Addexp style={styles.accountContainer}
@@ -237,4 +238,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddExpens;
+export default Adexp;
