@@ -4,8 +4,9 @@ import {
   TextInput, ScrollView, KeyboardAvoidingView
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Login from '../assets/images/Login.svg';
+import Signup from '../assets/images/Signup.svg';
 import Profile from '../assets/images/Profile.svg';
+import UserSign from '../assets/images/userSign.svg';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts } from '../constants';
 import Display from '../utils/Display';
@@ -19,15 +20,15 @@ const LoginScreen = ({ navigation }) => {
         translucent backgroundColor="transparent" />
 
       <View style={styles.splashcontainer}>
-        <Login style={styles.splashcolor} />
+        <Signup style={styles.splashcolor} />
         <ScrollView style={styles.main}>
           <Seperator height={150} />
-
-          <LinearGradient
+          <UserSign style={styles.userSign} />
+          {/* <LinearGradient
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
               style={styles.ProfileContainer}>
               <Profile  height={100}  width={100} />
-            </LinearGradient>
+            </LinearGradient> */}
 
           <Seperator height={67} />
 
@@ -182,10 +183,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: Fonts.POPPINS_MEDIUM
   },
-  ProfileContainer: {
-    backgroundColor: '#9007FC',
-    borderRadius: 50,
-    marginHorizontal: 110   
+  userSign: {
+     alignSelf: 'center', 
   }
 
 });

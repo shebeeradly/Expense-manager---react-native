@@ -4,29 +4,23 @@ import { Colors, Fonts } from '../constants';
 import { Display } from '../utils';
 import Seperator from './Seperator';
 
-const ItemCard = ({ items, amount, date }) => {
+const ItemCard = ({ items, amount, date, colour, boxColor }) => {
 
 
   return (
     <View style={styles.container}>
       <Seperator height={7} />
-      <View style={{...styles.itemContainer,              
-        backgroundColor: items == "Milk" ? '#F0F0FF': 'null',
-        backgroundColor: items == "Travelling" ? '#E0FFE0': 'null',
-        backgroundColor: items == "Trip" ? '#D0FFFF': 'null',
-        backgroundColor: items == "Grocery Items" ? '#FFF0F0': 'null',
-        backgroundColor: items == "school" ? '#C8F2FF': 'null',
-        }}>
+      <View style={{
+        ...styles.itemContainer,
+        backgroundColor: colour
+      }}>
         <View style={styles.spaceContainer}>
           <View style={styles.itemDirection}>
-            <View style={{...styles.smallBox,            
-              backgroundColor: items == "Milk" ? '#C8F2FF': 'null',
-              backgroundColor: items == "school" ? '#4081FF': 'null',
-              backgroundColor: items == "Travelling" ? "#9AFBA9" : "null",
-              backgroundColor: items == "Trip" ? '#62B7B2': 'null',
-              backgroundColor: items == "Grocery Items" ? "#EFB97B" : "null",
+            <View style={{
+              ...styles.smallBox,
+              backgroundColor: boxColor
             }} />
-            
+
             <Text style={styles.itemTxt}>{items}</Text>
           </View>
           <View style={styles.dateContainer}>
@@ -93,6 +87,7 @@ const styles = StyleSheet.create({
     height: Display.setHeight(4),
     width: Display.setWidth(10),
     backgroundColor: '#A9F5FF',
+    position: 'absolute'
   },
   amountTxt: {
     fontFamily: Fonts.POPPINS_MEDIUM,
