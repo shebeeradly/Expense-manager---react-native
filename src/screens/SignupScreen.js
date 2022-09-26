@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Signup from '../assets/images/Signup.svg';
-import Profile from '../assets/images/Profile.svg';
 import UserSign from '../assets/images/userSign.svg';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts } from '../constants';
@@ -24,11 +23,6 @@ const LoginScreen = ({ navigation }) => {
         <ScrollView style={styles.main}>
           <Seperator height={150} />
           <UserSign style={styles.userSign} />
-          {/* <LinearGradient
-              start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
-              style={styles.ProfileContainer}>
-              <Profile  height={100}  width={100} />
-            </LinearGradient> */}
 
           <Seperator height={67} />
 

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import {
-    View, Text, StyleSheet, StatusBar, TouchableOpacity, FlatList, Image
+    View, Text, StyleSheet, StatusBar, TouchableOpacity, FlatList,
 } from 'react-native';
-import { CatogeryCard, GradientText, Seperator } from '../components';
+import { CatogeryCard, Seperator } from '../components';
 import moment from 'moment';
-import { Colors, Fonts, Images } from '../constants';
+import { Colors, Fonts} from '../constants';
 import Display from '../utils/Display';
 import Addexp from '../assets/images/addexp.svg';
 import Keybords from '../components/Keybords';
-import Close from '../assets/images/close.svg';
 
 const category =
     ["School", "Grocery", "Milk", "Supermarket", "Beverages", "Fish", "Medicine", "Clothes"]
@@ -57,7 +56,7 @@ const Adexp = ({ navigation }) => {
                         renderItem={({ item, index }) => (<CatogeryCard
                             CatogeryName={item}
                             active={item === activeC ? true : false}
-                            onPress={(CatogeryName) => setActiveC(CatogeryName)} />
+                            onPress={setActiveC} />
                         )}
                     />
                 </View>

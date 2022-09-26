@@ -56,6 +56,11 @@ class Keybords extends React.Component {
     componentDidMount() {
         model.onChange((model) => {
             this.setState({ text: model.getKeys().join('') });
+        });
+    }
+
+    componentDidUpdate() {
+        model.onChange((model) => {
             this.props.onPress(model)
         });
     }
