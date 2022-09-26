@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View, Text, StyleSheet, StatusBar, TouchableOpacity,
   TextInput, ScrollView, KeyboardAvoidingView
@@ -8,9 +8,29 @@ import Signup from '../assets/images/Signup.svg';
 import UserSign from '../assets/images/userSign.svg';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts } from '../constants';
+import { AuthenticationService } from '../services';
 import Display from '../utils/Display';
 
 const LoginScreen = ({ navigation }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const register = () => {
+    let user = {
+      name,
+      email,
+      password,
+      confirmPassword,
+    }
+    console.log(user)
+    AuthenticationService.register(user).then(response => {
+      console.log(response);
+    })
+    // navigation.navigate('Screen1')
+  };
+
   return (
 
     <View style={styles.container}>
@@ -32,7 +52,8 @@ const LoginScreen = ({ navigation }) => {
             <View style={styles.inputContainer}>
               <TextInput placeholder='Name'
                 placeholderTextColor={Colors.DARK_FIVE}
-                style={styles.txtInput} />
+                style={styles.txtInput}
+                onChangeText={(text) => setName(text)} />
             </View>
           </LinearGradient>
 
@@ -44,7 +65,8 @@ const LoginScreen = ({ navigation }) => {
             <View style={styles.inputContainer}>
               <TextInput placeholder='Mail Id'
                 placeholderTextColor={Colors.DARK_FIVE}
-                style={styles.txtInput} />
+                style={styles.txtInput}
+                onChangeText={(text) => setEmail(text)} />
             </View>
           </LinearGradient>
 
@@ -57,7 +79,8 @@ const LoginScreen = ({ navigation }) => {
                 <TextInput placeholder='Enter Password'
                   placeholderTextColor={Colors.DARK_FIVE}
                   secureTextEntry={true}
-                  style={styles.txtInput} />
+                  style={styles.txtInput}
+                  onChangeText={(text) => setPassword(text)} />
               </View>
 
             </LinearGradient>
@@ -70,7 +93,8 @@ const LoginScreen = ({ navigation }) => {
                 <TextInput placeholder='Confirm Password'
                   placeholderTextColor={Colors.DARK_FIVE}
                   secureTextEntry={true}
-                  style={styles.txtInput} />
+                  style={styles.txtInput}
+                  onChangeText={(text) => setConfirmPassword(text)} />
               </View>
             </LinearGradient>
           </KeyboardAvoidingView>
@@ -78,7 +102,7 @@ const LoginScreen = ({ navigation }) => {
           <Seperator height={45} />
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('Screen1')}>
+            onPress={() => register()}>
             <LinearGradient
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
               style={styles.logButton}>
@@ -103,7 +127,7 @@ const LoginScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+   
   },
   buttonText: {
     fontSize: 18,
@@ -125,7 +149,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emailInput: {
-    backgroundColor: Colors.SECONDARY_GREEN,
     marginHorizontal: 20,
     height: Display.setHeight(7),
     width: Display.setWidth(77),
@@ -139,11 +162,11 @@ const styles = StyleSheet.create({
     width: Display.setWidth(75.5),
     borderRadius: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+   
   },
   txtInput: {
-    width: Display.setWidth(75),
-    textAlign: 'center'
+    width: Display.setWidth(70),
+    textAlign: 'center',
   },
   logButton: {
     backgroundColor: Colors.SECONDARY_GREEN,
@@ -178,7 +201,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_MEDIUM
   },
   userSign: {
-     alignSelf: 'center', 
+    alignSelf: 'center',
   }
 
 });

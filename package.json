@@ -15,6 +15,7 @@
     "@react-navigation/drawer": "^6.4.4",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
+    "axios": "^0.27.2",
     "moment": "^2.29.4",
     "react": "17.0.2",
     "react-native": "0.68.2",
@@ -39,5 +40,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "projectConfig": {
+    "backendApiBaseUrl" : "http://192.168.1.47:3000"
   }
 }
