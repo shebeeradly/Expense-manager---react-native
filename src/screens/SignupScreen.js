@@ -7,15 +7,51 @@ import LinearGradient from 'react-native-linear-gradient';
 import Signup from '../assets/images/Signup.svg';
 import UserSign from '../assets/images/userSign.svg';
 import Seperator from '../components/Seperator';
-import { Colors, Fonts } from '../constants';
+import { Colors, Fonts, Images } from '../constants';
 import { AuthenticationService } from '../services';
 import Display from '../utils/Display';
+import LottieView from 'lottie-react-native';
 
-const LoginScreen = ({ navigation }) => {
+const inputStyle = state => {
+  switch (state) {
+    case 'valid':
+      return {
+        ...styles.emailInput,
+        borderWidth: 3,
+        borderColor: Colors.SECONDARY_GREEN,
+        borderBottomEndRadius: 13,
+        borderBottomStartRadius: 13,
+        borderTopEndRadius: 13,
+        borderTopStartRadius: 13
+      };
+      break;
+    case 'invalid':
+      return {
+        ...styles.emailInput,
+        borderWidth: 3,
+        borderColor: Colors.SECONDARY_RED,
+        borderBottomEndRadius: 13,
+        borderBottomStartRadius: 13,
+        borderTopEndRadius: 13,
+        borderTopStartRadius: 13
+      };
+    default:
+      return styles.emailInput;
+      break;
+  }
+}
+
+const SignupScreen = ({ navigation }) => {
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [existErrorMessage, setExistErrorMessage] = useState('');
+  const [emailState, setEmailState] = useState('default');
+  const [passwordState, setPasswordState] = useState('default');
 
   const register = () => {
     let user = {
@@ -24,12 +60,43 @@ const LoginScreen = ({ navigation }) => {
       password,
       confirmPassword,
     }
-    console.log(user)
+    // console.log(user.password)
+
+    if (user.password === user.confirmPassword) {
+      setPasswordState('valid')
+    } else {
+      setPasswordState('invalid')
+      // setErrorMessage("Password Mismatch")
+    }
+
+    setLoading(true)
     AuthenticationService.register(user).then(response => {
-      console.log(response);
+      setLoading(false)
+      // console.log(response);
+      if (!response?.status) {
+        setErrorMessage(response?.message)
+      } else {
+        setErrorMessage('')
+      }
     })
     // navigation.navigate('Screen1')
   };
+
+  const checkUserExist = async (type, value) => {
+    if (value?.length > 0) {
+      AuthenticationService.checkUserExist(type, value).then(response => {
+        if (response?.status) {
+          type === 'email' && existErrorMessage
+            ? setExistErrorMessage('') : null;
+          type === 'email' ? setEmailState('valid') : null;
+
+        } else {
+          type === 'email' ? setExistErrorMessage(response?.message) : null;
+          type === 'email' ? setEmailState('invalid') : null;
+        }
+      })
+    }
+  }
 
   return (
 
@@ -40,37 +107,45 @@ const LoginScreen = ({ navigation }) => {
 
       <View style={styles.splashcontainer}>
         <Signup style={styles.splashcolor} />
-        <ScrollView style={styles.main}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.main}>
           <Seperator height={150} />
           <UserSign style={styles.userSign} />
 
-          <Seperator height={67} />
+          <Seperator height={55} />
 
           <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
             style={styles.emailInput}>
             <View style={styles.inputContainer}>
-              <TextInput placeholder='Name'
+              <TextInput underlineColorAndroid={Colors.DEFAULT_WHITE}
+                placeholder='Name'
                 placeholderTextColor={Colors.DARK_FIVE}
                 style={styles.txtInput}
                 onChangeText={(text) => setName(text)} />
             </View>
           </LinearGradient>
 
-          <Seperator height={17} />
+          <Seperator height={20} />
 
           <LinearGradient
             start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
-            style={styles.emailInput}>
+            style={inputStyle(emailState)}>
             <View style={styles.inputContainer}>
-              <TextInput placeholder='Mail Id'
+              <TextInput underlineColorAndroid={Colors.DEFAULT_WHITE}
+                placeholder='Mail Id'
+                keyboardType='email-address'
                 placeholderTextColor={Colors.DARK_FIVE}
                 style={styles.txtInput}
-                onChangeText={(text) => setEmail(text)} />
+                onChangeText={(text) => setEmail(text)}
+                onEndEditing={({ nativeEvent: { text } }) =>
+                  checkUserExist('email', text)} />
             </View>
           </LinearGradient>
+          <Text style={styles.warningTxt}>{existErrorMessage}</Text>
 
-          <Seperator height={17} />
+          <Seperator height={4} />
           <KeyboardAvoidingView>
             <LinearGradient
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
@@ -84,11 +159,11 @@ const LoginScreen = ({ navigation }) => {
               </View>
 
             </LinearGradient>
-            <Seperator height={17} />
+            <Seperator height={20} />
 
             <LinearGradient
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
-              style={styles.emailInput}>
+              style={inputStyle(passwordState)}>
               <View style={styles.inputContainer}>
                 <TextInput placeholder='Confirm Password'
                   placeholderTextColor={Colors.DARK_FIVE}
@@ -98,15 +173,21 @@ const LoginScreen = ({ navigation }) => {
               </View>
             </LinearGradient>
           </KeyboardAvoidingView>
+          <Text style={styles.warningTxt}>{errorMessage}</Text>
 
-          <Seperator height={45} />
+          <Seperator height={40} />
 
           <TouchableOpacity
             onPress={() => register()}>
             <LinearGradient
               start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#9007FC', '#4081FF']}
               style={styles.logButton}>
-              <Text style={styles.logBtnTxt}>SIGN UP</Text>
+              {loading ? (
+                <LottieView source={Images.LOADINGY} autoPlay />
+              ) : (
+                <Text style={styles.logBtnTxt}>SIGN UP</Text>
+              )
+              }
             </LinearGradient>
           </TouchableOpacity>
 
@@ -127,7 +208,7 @@ const LoginScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-   
+
   },
   buttonText: {
     fontSize: 18,
@@ -154,19 +235,20 @@ const styles = StyleSheet.create({
     width: Display.setWidth(77),
     borderRadius: 13,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   inputContainer: {
     backgroundColor: Colors.DEFAULT_WHITE,
-    height: Display.setHeight(6.5),
+    height: Display.setHeight(6.3),
     width: Display.setWidth(75.5),
     borderRadius: 10,
     justifyContent: 'center',
-   
   },
   txtInput: {
     width: Display.setWidth(70),
     textAlign: 'center',
+    height: Display.setHeight(7),
+    fontFamily: Fonts.POPPINS_MEDIUM,
   },
   logButton: {
     backgroundColor: Colors.SECONDARY_GREEN,
@@ -202,8 +284,30 @@ const styles = StyleSheet.create({
   },
   userSign: {
     alignSelf: 'center',
-  }
+  },
+  warningTxt: {
+    fontSize: 10,
+    marginHorizontal: 21,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    color: Colors.DEFAULT_RED,
+    lineHeight: 10 * 1.4,
+    marginTop: 5
+  },
+  emailInputBorder: {
+    marginHorizontal: 20,
+    height: Display.setHeight(7),
+    width: Display.setWidth(77),
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: Colors.DEFAULT_RED,
+    borderBottomEndRadius: 13,
+    borderBottomStartRadius: 13,
+    borderTopEndRadius: 13,
+    borderTopStartRadius: 13
+  },
 
 });
 
-export default LoginScreen;
+export default SignupScreen;

@@ -2,6 +2,7 @@ const { mongoConfig, tokenSecret } = require("../config");
 const MongoDB = require("./mongodb.service");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const { query } = require("express");
 
 const userRegister = async (user) => {
     try {
@@ -89,4 +90,19 @@ const userLogin = async (user) => {
     }
 };
 
-module.exports = { userRegister, userLogin };
+const checkUserExist = async (query) => {
+    
+    try {
+        let userObject = await MongoDB.db
+        .collection(mongoConfig.collections.USERS)
+        .findOne(query);
+        console.log(userObject);
+        return !userObject 
+        ? {status: true, message: "This email is not taken"}
+        : {status: false, message: "User alredy exist"}
+    } catch (error) {
+        
+    }
+}
+
+module.exports = { userRegister, userLogin, checkUserExist };
