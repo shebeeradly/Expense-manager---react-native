@@ -60,19 +60,19 @@ const SignupScreen = ({ navigation }) => {
       password,
       confirmPassword,
     }
-    // console.log(user.password)
 
     if (user.password === user.confirmPassword) {
       setPasswordState('valid')
     } else {
       setPasswordState('invalid')
-      // setErrorMessage("Password Mismatch")
     }
 
     setLoading(true)
     AuthenticationService.register(user).then(response => {
       setLoading(false)
-      // console.log(response);
+      if (response?.status === true) {
+        navigation.navigate('Screen1')
+      }
       if (!response?.status) {
         setErrorMessage(response?.message)
       } else {
@@ -84,17 +84,22 @@ const SignupScreen = ({ navigation }) => {
 
   const checkUserExist = async (type, value) => {
     if (value?.length > 0) {
-      AuthenticationService.checkUserExist(type, value).then(response => {
-        if (response?.status) {
-          type === 'email' && existErrorMessage
-            ? setExistErrorMessage('') : null;
-          type === 'email' ? setEmailState('valid') : null;
+      if (value?.includes('@'&& '.')) {
+        AuthenticationService.checkUserExist(type, value).then(response => {
+          if (response?.status) {
+            type === 'email' && existErrorMessage
+              ? setExistErrorMessage('') : null;
+            type === 'email' ? setEmailState('valid') : null;
 
-        } else {
-          type === 'email' ? setExistErrorMessage(response?.message) : null;
-          type === 'email' ? setEmailState('invalid') : null;
-        }
-      })
+          } else {
+            type === 'email' ? setExistErrorMessage(response?.message) : null;
+            type === 'email' ? setEmailState('invalid') : null;
+          }
+        })
+      } else {
+        type === 'email' ? setExistErrorMessage("Enter a valid Email") : null;
+        type === 'email' ? setEmailState('invalid') : null;
+      }
     }
   }
 

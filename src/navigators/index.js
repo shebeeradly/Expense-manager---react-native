@@ -19,7 +19,7 @@ function Screen1() {
       <Tab.Screen name="Setting" component={SettingScreen} 
       options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
         <Icosettings width={30} height={30} />
-       )}} />
+       ), tabBarStyle:{display:'none'},}} />
       <Tab.Screen name="Home" component={Home}
       options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
         <Homes width={30} height={30} />
@@ -38,9 +38,9 @@ const Navigators = () => {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />       
-        <Stack.Screen name="Screen1" component={Screen1} />      
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Screen1" component={Screen1} />      
       </Stack.Navigator>
     </NavigationContainer>
   )

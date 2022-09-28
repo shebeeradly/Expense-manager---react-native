@@ -1,3 +1,4 @@
 import AuthenticationService from "./AuthenticationService";
+import UserService from "./UserService";
 
-export { AuthenticationService };
+export { AuthenticationService, UserService };
