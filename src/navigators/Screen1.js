@@ -5,12 +5,17 @@ import Icosettings from '../assets/images/icosettings.svg';
 import Icoshare from '../assets/images/icoshare.svg';
 import { SettingScreen, ShareScreen } from '../screens';
 import Home from './Home';
+import { Colors } from '../constants';
 
 const Tab = createBottomTabNavigator();
 
 const Screen1 = () => {
     return (
-        <Tab.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }} backBehavior="initialRoute" >
+        <Tab.Navigator initialRouteName='Home' 
+        screenOptions={{ headerShown: false,
+            tabBarActiveTintColor: Colors.DEFAULT_GREEN,
+            tabBarInactiveTintColor: Colors.INACTIVE_GREY, }} 
+        backBehavior="initialRoute" >
             <Tab.Screen name="Setting" component={SettingScreen}
                 options={{
                     tabBarShowLabel: false, tabBarIcon: ({ focused, size }) => (

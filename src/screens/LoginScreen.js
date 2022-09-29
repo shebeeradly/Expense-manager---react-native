@@ -8,6 +8,8 @@ import { Colors, Fonts, Images } from '../constants';
 import Display from '../utils/Display';
 import { AuthenticationService } from '../services';
 import LottieView from 'lottie-react-native';
+import { connect } from 'react-redux';
+import { GeneralAction } from '../actions';
 
 const inputStyle = state => {
   switch (state) {
@@ -38,7 +40,7 @@ const inputStyle = state => {
   }
 }
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setToken }) => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -55,6 +57,7 @@ const LoginScreen = ({ navigation }) => {
     };
     AuthenticationService.login(user).then(response => {
       setLoading(false);
+      setToken(response?.data)
       // if (response?.status === true) {
       //   navigation.navigate('Screen1')
       // }
@@ -97,7 +100,6 @@ const LoginScreen = ({ navigation }) => {
               width={Display.setWidth(23)} />
           </View>
           <Text style={styles.welText}>Welcome back!</Text>
-
           <Seperator height={100} />
 
           <LinearGradient
@@ -263,4 +265,10 @@ const styles = StyleSheet.create({
 
 });
 
-export default LoginScreen;
+const mapDispatchToProps = (dispach) => {
+  return {
+    setToken: token => dispach(GeneralAction.setToken(token)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LoginScreen);
