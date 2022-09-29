@@ -55,17 +55,15 @@ const LoginScreen = ({ navigation }) => {
     };
     AuthenticationService.login(user).then(response => {
       setLoading(false);
-      if (response?.status === true) {
-        navigation.navigate('Screen1')
-      }
+      // if (response?.status === true) {
+      //   navigation.navigate('Screen1')
+      // }
       if (!response?.status) {
         setErrorMessage(response?.message)
       } else {
         setErrorMessage('')
       }
     })
-
-    // onPress={() => navigation.navigate('Screen1')
   }
 
   const checkUserExist = async (type, value) => {

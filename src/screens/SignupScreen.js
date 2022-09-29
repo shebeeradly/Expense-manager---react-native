@@ -61,30 +61,42 @@ const SignupScreen = ({ navigation }) => {
       confirmPassword,
     }
 
-    if (user.password === user.confirmPassword) {
-      setPasswordState('valid')
-    } else {
-      setPasswordState('invalid')
-    }
-
     setLoading(true)
     AuthenticationService.register(user).then(response => {
       setLoading(false)
-      if (response?.status === true) {
-        navigation.navigate('Screen1')
-      }
+      // if (response?.status === true) {
+      //   navigation.navigate('Screen1')
+      // }
       if (!response?.status) {
         setErrorMessage(response?.message)
       } else {
         setErrorMessage('')
       }
     })
-    // navigation.navigate('Screen1')
+  };
+
+  let passwordTest = () => {
+
+    let user = {
+      name,
+      email,
+      password,
+      confirmPassword,
+    }
+
+    if ((user?.password && user?.confirmPassword).length > 0) {
+
+      if (user.password === user.confirmPassword) {
+        setPasswordState('valid')
+      } else {
+        setPasswordState('invalid')
+      }
+    }
   };
 
   const checkUserExist = async (type, value) => {
     if (value?.length > 0) {
-      if (value?.includes('@'&& '.')) {
+      if (value?.includes('@' && '.')) {
         AuthenticationService.checkUserExist(type, value).then(response => {
           if (response?.status) {
             type === 'email' && existErrorMessage
@@ -174,7 +186,8 @@ const SignupScreen = ({ navigation }) => {
                   placeholderTextColor={Colors.DARK_FIVE}
                   secureTextEntry={true}
                   style={styles.txtInput}
-                  onChangeText={(text) => setConfirmPassword(text)} />
+                  onChangeText={(text) => setConfirmPassword(text)}
+                  onEndEditing={() => passwordTest()} />
               </View>
             </LinearGradient>
           </KeyboardAvoidingView>

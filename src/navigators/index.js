@@ -1,36 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  SplashScreen, SignupScreen, LoginScreen, SettingScreen,ShareScreen
-} from '../screens';
-import Home from './Home';
-import Homes from '../assets/images/Home.svg';
-import Icosettings from '../assets/images/icosettings.svg';
-import Icoshare from '../assets/images/icoshare.svg';
+import { SplashScreen, SignupScreen, LoginScreen, } from '../screens';
+import Screen1 from './Screen1';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-function Screen1() {
-  return (
-    <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}} backBehavior="initialRoute" >
-      <Tab.Screen name="Setting" component={SettingScreen} 
-      options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
-        <Icosettings width={30} height={30} />
-       ), tabBarStyle:{display:'none'},}} />
-      <Tab.Screen name="Home" component={Home}
-      options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
-        <Homes width={30} height={30} />
-       )}} />
-      <Tab.Screen name="Share" component={ShareScreen}
-       options={{tabBarShowLabel: false , tabBarIcon: ({focused, size}) =>(
-        <Icoshare width={30} height={30} />
-       )}} />
-    </Tab.Navigator>
-  );
-}
 
 const Navigators = () => {
   return (
