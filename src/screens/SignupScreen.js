@@ -8,10 +8,10 @@ import Signup from '../assets/images/Signup.svg';
 import UserSign from '../assets/images/userSign.svg';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts, Images } from '../constants';
-import { AuthenticationService } from '../services';
+import { AuthenticationService, StorageService } from '../services';
 import Display from '../utils/Display';
 import LottieView from 'lottie-react-native';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GeneralAction } from '../actions';
 
 const inputStyle = state => {
@@ -42,8 +42,7 @@ const inputStyle = state => {
       break;
   }
 }
-
-const SignupScreen = ({ navigation, setToken }) => {
+const SignupScreen = ({ navigation }) => {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -55,6 +54,8 @@ const SignupScreen = ({ navigation, setToken }) => {
   const [emailState, setEmailState] = useState('default');
   const [passwordState, setPasswordState] = useState('default');
 
+  const dispatch = useDispatch()
+
   const register = () => {
     let user = {
       name,
@@ -62,11 +63,16 @@ const SignupScreen = ({ navigation, setToken }) => {
       password,
       confirmPassword,
     }
-
     setLoading(true)
     AuthenticationService.register(user).then(response => {
       setLoading(false)
-      setToken(response?.data)
+      StorageService.setToken(response?.data).then(() => {
+        dispatch(GeneralAction.setToken(response?.data));
+      });
+
+      StorageService.getFirstTimeUse().then(() => {
+        dispatch(GeneralAction.setFirstTimeUse());
+      });
       // if (response?.status === true) {
       //   navigation.navigate('Screen1')
       // }
@@ -79,16 +85,13 @@ const SignupScreen = ({ navigation, setToken }) => {
   };
 
   let passwordTest = () => {
-
     let user = {
       name,
       email,
       password,
       confirmPassword,
     }
-
     if ((user?.password && user?.confirmPassword).length > 0) {
-
       if (user.password === user.confirmPassword) {
         setPasswordState('valid')
       } else {
@@ -117,9 +120,7 @@ const SignupScreen = ({ navigation, setToken }) => {
       }
     }
   }
-
   return (
-
     <View style={styles.container}>
 
       <StatusBar barStyle='dark-content'
@@ -132,7 +133,6 @@ const SignupScreen = ({ navigation, setToken }) => {
           style={styles.main}>
           <Seperator height={150} />
           <UserSign style={styles.userSign} />
-
           <Seperator height={55} />
 
           <LinearGradient
@@ -146,7 +146,6 @@ const SignupScreen = ({ navigation, setToken }) => {
                 onChangeText={(text) => setName(text)} />
             </View>
           </LinearGradient>
-
           <Seperator height={20} />
 
           <LinearGradient
@@ -177,7 +176,6 @@ const SignupScreen = ({ navigation, setToken }) => {
                   style={styles.txtInput}
                   onChangeText={(text) => setPassword(text)} />
               </View>
-
             </LinearGradient>
             <Seperator height={20} />
 
@@ -195,7 +193,6 @@ const SignupScreen = ({ navigation, setToken }) => {
             </LinearGradient>
           </KeyboardAvoidingView>
           <Text style={styles.warningTxt}>{errorMessage}</Text>
-
           <Seperator height={40} />
 
           <TouchableOpacity
@@ -207,8 +204,7 @@ const SignupScreen = ({ navigation, setToken }) => {
                 <LottieView source={Images.LOADINGY} autoPlay />
               ) : (
                 <Text style={styles.logBtnTxt}>SIGN UP</Text>
-              )
-              }
+              )}
             </LinearGradient>
           </TouchableOpacity>
 
@@ -229,7 +225,7 @@ const SignupScreen = ({ navigation, setToken }) => {
 
 const styles = StyleSheet.create({
   container: {
-
+    flex: 1
   },
   buttonText: {
     fontSize: 18,
@@ -331,10 +327,4 @@ const styles = StyleSheet.create({
 
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setToken: token => dispatch(GeneralAction.setToken(token)),
-  }
-}
-
-export default connect(null,mapDispatchToProps)(SignupScreen);
+export default SignupScreen;

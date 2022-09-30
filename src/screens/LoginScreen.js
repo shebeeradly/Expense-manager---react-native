@@ -6,9 +6,9 @@ import Mail from '../assets/images/Mail.svg';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts, Images } from '../constants';
 import Display from '../utils/Display';
-import { AuthenticationService } from '../services';
+import { AuthenticationService, StorageService } from '../services';
 import LottieView from 'lottie-react-native';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GeneralAction } from '../actions';
 
 const inputStyle = state => {
@@ -40,7 +40,7 @@ const inputStyle = state => {
   }
 }
 
-const LoginScreen = ({ navigation, setToken }) => {
+const LoginScreen = ({ navigation }) => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -48,6 +48,8 @@ const LoginScreen = ({ navigation, setToken }) => {
   const [password, setPassword] = useState('');
   const [existErrorMessage, setExistErrorMessage] = useState('');
   const [emailState, setEmailState] = useState('default');
+
+  const dispatch = useDispatch()
 
   const login = async () => {
     setLoading(true);
@@ -57,7 +59,13 @@ const LoginScreen = ({ navigation, setToken }) => {
     };
     AuthenticationService.login(user).then(response => {
       setLoading(false);
-      setToken(response?.data)
+      StorageService.setToken(response?.data).then(() => {
+        dispatch(GeneralAction.setToken(response?.data));
+      });
+
+      StorageService.getFirstTimeUse().then(() => {
+        dispatch(GeneralAction.setFirstTimeUse());
+      });
       // if (response?.status === true) {
       //   navigation.navigate('Screen1')
       // }
@@ -265,10 +273,4 @@ const styles = StyleSheet.create({
 
 });
 
-const mapDispatchToProps = (dispach) => {
-  return {
-    setToken: token => dispach(GeneralAction.setToken(token)),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;

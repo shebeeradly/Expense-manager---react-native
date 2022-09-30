@@ -1,23 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SplashScreen, SignupScreen, LoginScreen, } from '../screens';
 import Screen1 from './Screen1';
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { GeneralAction } from '../actions';
 
 const Stack = createNativeStackNavigator();
 
-const Navigators = ({ token }) => {
-  console.log(token)
+const Navigators = () => {
+
+  const {
+    isAppLoading, token, isFirstTimeUse
+  } = useSelector(state => state?.generalState);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+   setTimeout(() => {
+    dispatch(GeneralAction.appStart());
+   },2000)
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
-        {
-          !token ? (
+        {isAppLoading ? (
+          <>
+            <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </>
+        ) :
+          !token || token === '' || token === null ? (
             <>
-              <Stack.Screen name="Splash" component={SplashScreen} />
-              <Stack.Screen name="Signup" component={SignupScreen} />
+              { isFirstTimeUse && (
+                <Stack.Screen name="Signup" component={SignupScreen} />
+              )}
+              
               <Stack.Screen name="Login" component={LoginScreen} />
             </>
           ) : (
@@ -29,10 +49,4 @@ const Navigators = ({ token }) => {
   )
 };
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.generalState.token
-  }
-};
-
-export default connect(mapStateToProps)(Navigators);
+export default Navigators;

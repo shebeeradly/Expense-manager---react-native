@@ -20,7 +20,7 @@ const userRegister = async (user) => {
         if (savedUser?.acknowledged && savedUser?.insertedId) {
             let token = jwt.sign({
                 email: userObject?.email
-            }, tokenSecret, { expiresIn: "30 days" })
+            }, tokenSecret, { expiresIn: "24h" })
             return {
                 status: true,
                 message: "User registered successfully",
@@ -61,7 +61,7 @@ const userLogin = async (user) => {
                 let token = jwt.sign({
                     email: userObject?.email
                 },
-                    tokenSecret, { expiresIn: "30 days" });
+                    tokenSecret, { expiresIn: "24h" });
                 return {
                     status: true,
                     message: "User login successful",
