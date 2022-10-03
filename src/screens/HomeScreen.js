@@ -29,6 +29,7 @@ const HomeScreen = ({ navigation }) => {
     <View style={styles.container}>
 
       <StatusBar translucent
+        barStyle='dark-content'
         backgroundColor={Colors.DEFAULT_WHITE} />
       <Seperator height={StatusBar.currentHeight} />
       <Seperator height={10} />

@@ -60,7 +60,7 @@ const ForgotPassword = ({navigation}) => {
 
                 } else {
                     type === 'email' ? setExistErrorMessage("Email not found") : null;
-                    type === 'email' ? setEmailState('invalid') : null;
+                    type === 'email' ? setEmailState('invalid') : null;                 
                 }
             })
         }
@@ -74,7 +74,7 @@ const ForgotPassword = ({navigation}) => {
             <View style={styles.splashcontainer}>
                 <Login style={styles.splashcolor} />
                 <Seperator height={StatusBar.currentHeight} />
-
+                <Seperator height={10} />
                 <View style={styles.headerContainer}>
                     <Ionicons
                         name="chevron-back-outline"

@@ -3,6 +3,7 @@ const MongoDB = require("./mongodb.service");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const { query } = require("express");
+const config = require("../config");
 
 const userRegister = async (user) => {
     try {
@@ -91,18 +92,60 @@ const userLogin = async (user) => {
 };
 
 const checkUserExist = async (query) => {
-    
+
     try {
         let userObject = await MongoDB.db
-        .collection(mongoConfig.collections.USERS)
-        .findOne(query);
+            .collection(mongoConfig.collections.USERS)
+            .findOne(query);
         console.log(userObject);
-        return !userObject 
-        ? {status: true, message: "This email is not taken"}
-        : {status: false, message: "User alredy exist"}
+        return !userObject
+            ? { status: true, message: "This email is not taken" }
+            : { status: false, message: "User alredy exist" }
     } catch (error) {
-        
-    }
-}
 
-module.exports = { userRegister, userLogin, checkUserExist };
+    }
+};
+
+const tokenVerification = async (req, res, next) => {
+    console.log(
+        `authentication.service | tokenVerification | ${req?.originalUrl}`
+    );
+    try {
+        if (
+            req?.originalUrl.includes("/login") ||
+            req?.originalUrl.includes("/user-exist") ||
+            req?.originalUrl.includes("/register")
+        )
+            return next();
+            let token = req?.headers["authorization"];
+            if (token && token.startsWith("Bearer")) {
+                token = token.slice(7, token?.length);
+                jwt.verify(token, config.tokenSecret, (error, decoded) => {
+                    if (error) {
+                        res.status(401).json({
+                            status: false,
+                            message: error?.name ? error?.name : "Invalid Token",
+                            error: `Invalid token | ${error?.message}`,
+                        });
+                    } else {
+                        req["email"] = decoded?.email;
+                        next();
+                    }
+                });
+            } else {
+                res.status(401).json({
+                    status: false,
+                    message: "Token is missing",
+                    error: "Token is missing",
+                });
+            }
+    } catch (error) {
+        res.status(401).json({
+            status: false,
+            message: error?.message ? error?.message : "Authentication failed",
+            error: `Authentication failed | ${error?.message}`,
+        });
+    }
+};
+
+module.exports = { userRegister, userLogin, checkUserExist, tokenVerification };

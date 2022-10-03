@@ -71,6 +71,9 @@ const SignupScreen = ({ navigation }) => {
     setLoading(true)
     AuthenticationService.register(user).then(response => {
       setLoading(false)
+      StorageService.getFirstTimeUse().then(() => {
+        dispatch(GeneralAction.setFirstTimeUse());
+      });
       if (!response?.status) {
         setErrorMessage(response?.message);
       }
@@ -82,9 +85,7 @@ const SignupScreen = ({ navigation }) => {
       //   setErrorMessage(response?.message);
       // }
 
-      // StorageService.getFirstTimeUse().then(() => {
-      //   dispatch(GeneralAction.setFirstTimeUse());
-      // });
+      
       // if (response?.status === true) {
       //   navigation.navigate('Screen1')
       // }

@@ -17,6 +17,7 @@ const DetailScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar translucent
+        barStyle='dark-content'
         backgroundColor={Colors.DEFAULT_WHITE} />
       <Seperator height={StatusBar.currentHeight} />
       <View style={styles.firstContainer}>
@@ -68,8 +69,8 @@ const DetailScreen = ({ navigation }) => {
       <FlatList
         data={General.ITEM_CONTENTS}
         keyExtractor={(item, index) => {
-          return  index.toString();
-         }}
+          return index.toString();
+        }}
         renderItem={({ item }) => <ItemCard {...item} />}
       />
 

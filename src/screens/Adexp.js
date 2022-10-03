@@ -1,10 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import {
     View, Text, StyleSheet, StatusBar, TouchableOpacity, FlatList,
 } from 'react-native';
 import { CatogeryCard, Seperator } from '../components';
 import moment from 'moment';
-import { Colors, Fonts} from '../constants';
+import { Colors, Fonts } from '../constants';
 import Display from '../utils/Display';
 import Addexp from '../assets/images/addexp.svg';
 import Keybords from '../components/Keybords';
@@ -22,6 +22,7 @@ const Adexp = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <StatusBar translucent
+                barStyle='dark-content'
                 backgroundColor={Colors.DEFAULT_WHITE} />
             <Seperator height={StatusBar.currentHeight} />
             <Seperator height={20} />
@@ -42,10 +43,10 @@ const Adexp = ({ navigation }) => {
                     <Text style={styles.inrText}>INR</Text>
                 </View>
             </View>
-            
+
 
             <View style={styles.position}>
-            <Seperator height={222} />
+                <Seperator height={222} />
                 <View style={styles.flatContainer}>
                     <Seperator height={20} />
                     <FlatList
