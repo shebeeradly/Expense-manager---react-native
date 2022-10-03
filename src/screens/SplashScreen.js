@@ -13,7 +13,7 @@ const SplashScreen = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar translucent 
       backgroundColor="transparent"
-      barStyle='dark-content' />
+      barStyle='light-content' />
       <View style={styles.splashcontainer}>
         <Splashcolor style={styles.splashcolor} />
 

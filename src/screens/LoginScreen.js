@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, StatusBar, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Login from '../assets/images/Login.svg';
@@ -23,7 +23,6 @@ const inputStyle = state => {
         borderTopEndRadius: 13,
         borderTopStartRadius: 13
       };
-      break;
     case 'invalid':
       return {
         ...styles.emailInput,
@@ -36,7 +35,6 @@ const inputStyle = state => {
       };
     default:
       return styles.emailInput;
-      break;
   }
 }
 
@@ -49,7 +47,9 @@ const LoginScreen = ({ navigation }) => {
   const [existErrorMessage, setExistErrorMessage] = useState('');
   const [emailState, setEmailState] = useState('default');
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const firstInput = useRef();
 
   const login = async () => {
     setLoading(true);
@@ -59,27 +59,35 @@ const LoginScreen = ({ navigation }) => {
     };
     AuthenticationService.login(user).then(response => {
       setLoading(false);
-      StorageService.setToken(response?.data).then(() => {
-        dispatch(GeneralAction.setToken(response?.data));
-      });
 
-      StorageService.getFirstTimeUse().then(() => {
-        dispatch(GeneralAction.setFirstTimeUse());
-      });
+      if (response?.status) {
+        StorageService.setToken(response?.data).then(() => {
+          dispatch(GeneralAction.setToken(response?.data));
+        });
+      } else {
+        setErrorMessage(response?.message);
+      }
+      // StorageService.setToken(response?.data).then(() => {
+      //   dispatch(GeneralAction.setToken(response?.data));
+      // });
+
+      // StorageService.getFirstTimeUse().then(() => {
+      //   dispatch(GeneralAction.setFirstTimeUse());
+      // });
       // if (response?.status === true) {
       //   navigation.navigate('Screen1')
       // }
-      if (!response?.status) {
-        setErrorMessage(response?.message)
-      } else {
-        setErrorMessage('')
-      }
+      // if (!response?.status) {
+      //   setErrorMessage(response?.message)
+      // } else {
+      //   setErrorMessage('')
+      // }
     })
   }
 
   const checkUserExist = async (type, value) => {
     if (value?.length > 0) {
-      AuthenticationService.checkUserExist(type, value).then(response => {
+      await AuthenticationService.checkUserExist(type, value).then(response => {
         if (!response?.status) {
           type === 'email' && existErrorMessage
             ? setExistErrorMessage('') : null;
@@ -120,7 +128,8 @@ const LoginScreen = ({ navigation }) => {
                 keyboardType="email-address"
                 onChangeText={(text) => setEmail(text)}
                 onEndEditing={({ nativeEvent: { text } }) =>
-                  checkUserExist('email', text)} />
+                  checkUserExist('email', text)
+                  && firstInput.current.focus() } />
             </View>
           </LinearGradient>
           <Text style={styles.warningTxt}>{existErrorMessage}</Text>
@@ -134,6 +143,7 @@ const LoginScreen = ({ navigation }) => {
                 placeholderTextColor={Colors.DARK_FIVE}
                 secureTextEntry={true}
                 style={styles.txtInput}
+                ref={firstInput}
                 onChangeText={(text) => setPassword(text)} />
             </View>
           </LinearGradient>
@@ -155,7 +165,8 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
 
           <Seperator height={20} />
-          <TouchableOpacity>
+          <TouchableOpacity
+          onPress={() => navigation.navigate('Forgot')}>
             <Text style={styles.forgTouchTxt}>Forgot Password?</Text>
           </TouchableOpacity>
 

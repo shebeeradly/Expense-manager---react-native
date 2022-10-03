@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SplashScreen, SignupScreen, LoginScreen, } from '../screens';
+import { SplashScreen, SignupScreen, LoginScreen, ForgotPassword, } from '../screens';
 import Screen1 from './Screen1';
 import { useSelector, useDispatch } from 'react-redux';
 import { GeneralAction } from '../actions';
@@ -30,15 +30,19 @@ const Navigators = () => {
             <Stack.Screen name="Splash" component={SplashScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Forgot" component={ForgotPassword} />
           </>
         ) :
           !token || token === '' || token === null ? (
             <>
-              { isFirstTimeUse && (
+              {/* { isFirstTimeUse && (
                 <Stack.Screen name="Signup" component={SignupScreen} />
-              )}
+              )} */}
               
-              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Forgot" component={ForgotPassword} />
             </>
           ) : (
             <Stack.Screen name="Screen1" component={Screen1} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View, Text, StyleSheet, StatusBar, TouchableOpacity,
   TextInput, ScrollView, KeyboardAvoidingView
@@ -54,7 +54,12 @@ const SignupScreen = ({ navigation }) => {
   const [emailState, setEmailState] = useState('default');
   const [passwordState, setPasswordState] = useState('default');
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const firstInput = useRef();
+  const secondInput = useRef();
+  const thirdInput = useRef();
+  const fourthInput = useRef();
 
   const register = () => {
     let user = {
@@ -66,21 +71,28 @@ const SignupScreen = ({ navigation }) => {
     setLoading(true)
     AuthenticationService.register(user).then(response => {
       setLoading(false)
-      StorageService.setToken(response?.data).then(() => {
-        dispatch(GeneralAction.setToken(response?.data));
-      });
+      if (!response?.status) {
+        setErrorMessage(response?.message);
+      }
+      // if (response?.status) {
+      //   StorageService.setToken(response?.data).then(() => {
+      //     dispatch(GeneralAction.setToken(response?.data));
+      //   });
+      // } else {
+      //   setErrorMessage(response?.message);
+      // }
 
-      StorageService.getFirstTimeUse().then(() => {
-        dispatch(GeneralAction.setFirstTimeUse());
-      });
+      // StorageService.getFirstTimeUse().then(() => {
+      //   dispatch(GeneralAction.setFirstTimeUse());
+      // });
       // if (response?.status === true) {
       //   navigation.navigate('Screen1')
       // }
-      if (!response?.status) {
-        setErrorMessage(response?.message)
-      } else {
-        setErrorMessage('')
-      }
+      // if (!response?.status) {
+      //   setErrorMessage(response?.message)
+      // } else {
+      //   setErrorMessage('')
+      // }
     })
   };
 
@@ -143,7 +155,9 @@ const SignupScreen = ({ navigation }) => {
                 placeholder='Name'
                 placeholderTextColor={Colors.DARK_FIVE}
                 style={styles.txtInput}
-                onChangeText={(text) => setName(text)} />
+                ref={firstInput}
+                onChangeText={(text) => setName(text)}
+                onEndEditing={() => secondInput.current.focus()} />
             </View>
           </LinearGradient>
           <Seperator height={20} />
@@ -157,9 +171,11 @@ const SignupScreen = ({ navigation }) => {
                 keyboardType='email-address'
                 placeholderTextColor={Colors.DARK_FIVE}
                 style={styles.txtInput}
+                ref={secondInput}
                 onChangeText={(text) => setEmail(text)}
                 onEndEditing={({ nativeEvent: { text } }) =>
-                  checkUserExist('email', text)} />
+                  checkUserExist('email', text) &&
+                  thirdInput.current.focus() } />
             </View>
           </LinearGradient>
           <Text style={styles.warningTxt}>{existErrorMessage}</Text>
@@ -174,7 +190,9 @@ const SignupScreen = ({ navigation }) => {
                   placeholderTextColor={Colors.DARK_FIVE}
                   secureTextEntry={true}
                   style={styles.txtInput}
-                  onChangeText={(text) => setPassword(text)} />
+                  ref={thirdInput}
+                  onChangeText={(text) => setPassword(text)}
+                  onEndEditing={() => fourthInput.current.focus()} />
               </View>
             </LinearGradient>
             <Seperator height={20} />
@@ -187,6 +205,7 @@ const SignupScreen = ({ navigation }) => {
                   placeholderTextColor={Colors.DARK_FIVE}
                   secureTextEntry={true}
                   style={styles.txtInput}
+                  ref={fourthInput}
                   onChangeText={(text) => setConfirmPassword(text)}
                   onEndEditing={() => passwordTest()} />
               </View>
