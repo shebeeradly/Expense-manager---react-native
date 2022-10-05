@@ -4,4 +4,6 @@ import Reducers from './reducers';
 
 const Store = createStore(Reducers,applyMiddleware(thunk));
 
-export default Store;
+const getToken = () => Store?.getState()?.generalState?.token;
+
+export {Store, getToken};

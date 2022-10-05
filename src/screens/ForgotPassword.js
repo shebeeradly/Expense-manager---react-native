@@ -6,9 +6,9 @@ import Mail from '../assets/images/Mail.svg';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts, Images } from '../constants';
 import Display from '../utils/Display';
-import { AuthenticationService } from '../services';
 import LottieView from 'lottie-react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { AuthenticationService } from '../services';
 
 const inputStyle = state => {
     switch (state) {
@@ -82,7 +82,7 @@ const ForgotPassword = ({navigation}) => {
                         color='#9007FC'
                         onPress={() => navigation.goBack()}
                     />
-                    <Text style={styles.headerTitle}>Forgot Password</Text>
+                    <Text style={styles.headerTitle}>Reset Password</Text>
                 </View>
 
                 <Seperator height={100} />

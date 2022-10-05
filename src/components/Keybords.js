@@ -55,7 +55,9 @@ class Keybords extends React.Component {
 
     componentDidUpdate() {
         model.onChange((model) => {
-            this.props.onPress(model)
+            this.props.lock ?
+            this.props.onPress(model) :
+            this.props.onSalary(model)
         });
     }
 

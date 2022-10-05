@@ -175,7 +175,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.finalTxt}>Add Expense</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ top: 33 }}>
-            <Atm />
+            <Atm style={styles.atm}/>
             <Text style={styles.cardTxt}>My ATM</Text>
           </TouchableOpacity>
         </View>
@@ -470,6 +470,9 @@ const styles = StyleSheet.create({
     color: '#4F0603',
     lineHeight: 18 * 1.4
   },
+  atm: {
+    
+  }
 });
 
 export default HomeScreen;

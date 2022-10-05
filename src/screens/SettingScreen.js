@@ -1,19 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Image } from 'react-native';
 import Seperator from '../components/Seperator';
-import { Colors, Fonts } from '../constants';
+import { Colors, Fonts, Images } from '../constants';
 import Splashcolor from '../assets/images/splashcolor.svg';
 import Expenselogo from '../assets/images/expenselogo.svg';
 import UserSet from '../assets/images/userSet.svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+// import { UserService } from '../services';
 
 const SettingScreen = ({ navigation }) => {
 
-  const [email, setEmail] = useState('bairuhaTech@gmail.com');
+  const [email, setEmail] = useState('shebeer@bairuhatech.com');
 
+  // UserService.getUserData().then(userResponse =>{
+  //   if (userResponse?.status === 200) {
+  //     console.log(userResponse?.data)
+  //     setEmail(userResponse?.data.email)
+  //   return {
+  //     status: true,
+  //     message: `User data fetched`,
+  //     data: userResponse?.data,
+      
+  //   };
+  // } else {
+  //   return {
+  //     status: false,
+  //     message: `User data not found`,
+  //   };
+  // }
+  // })
+ 
   return (
     <View style={styles.container}>
-      
+
       <View style={styles.splashcontainer}>
         <Splashcolor style={styles.splashcolor} />
       </View>
@@ -33,11 +52,12 @@ const SettingScreen = ({ navigation }) => {
       <Seperator height={60} />
       <TouchableOpacity
         style={styles.userset}>
-        <UserSet height={100} width={100} />
+        <UserSet height={110} width={110} />
+        <Image source={Images.SHEBEER} style={styles.shebeer} />
       </TouchableOpacity>
       <Seperator height={15} />
       <Text style={styles.itemTxt}>{email}</Text>
-      <Seperator height={70} />
+      <Seperator height={50} />
       <TouchableOpacity style={styles.listContainer}>
         <View style={styles.smallBox} />
         <Text style={styles.mailTxt}>Get Premium</Text>
@@ -130,7 +150,14 @@ const styles = StyleSheet.create({
     right: 10,
   },
   userset: {
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  shebeer: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    position: 'absolute',
+    top: 5
   },
   mailTxt: {
     color: Colors.DEFAULT_WHITE,

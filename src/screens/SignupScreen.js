@@ -8,7 +8,7 @@ import Signup from '../assets/images/Signup.svg';
 import UserSign from '../assets/images/userSign.svg';
 import Seperator from '../components/Seperator';
 import { Colors, Fonts, Images } from '../constants';
-import { AuthenticationService, StorageService } from '../services';
+import {  AuthenticationService, StorageService } from '../services';
 import Display from '../utils/Display';
 import LottieView from 'lottie-react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,26 +74,14 @@ const SignupScreen = ({ navigation }) => {
       StorageService.getFirstTimeUse().then(() => {
         dispatch(GeneralAction.setFirstTimeUse());
       });
-      if (!response?.status) {
+      
+      if (response?.status) {
+        StorageService.setToken(response?.data).then(() => {
+          dispatch(GeneralAction.setToken(response?.data));
+        });
+      } else {
         setErrorMessage(response?.message);
       }
-      // if (response?.status) {
-      //   StorageService.setToken(response?.data).then(() => {
-      //     dispatch(GeneralAction.setToken(response?.data));
-      //   });
-      // } else {
-      //   setErrorMessage(response?.message);
-      // }
-
-      
-      // if (response?.status === true) {
-      //   navigation.navigate('Screen1')
-      // }
-      // if (!response?.status) {
-      //   setErrorMessage(response?.message)
-      // } else {
-      //   setErrorMessage('')
-      // }
     })
   };
 
@@ -107,6 +95,7 @@ const SignupScreen = ({ navigation }) => {
     if ((user?.password && user?.confirmPassword).length > 0) {
       if (user.password === user.confirmPassword) {
         setPasswordState('valid')
+        setErrorMessage('')
       } else {
         setPasswordState('invalid')
       }
@@ -144,7 +133,7 @@ const SignupScreen = ({ navigation }) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={styles.main}>
-          <Seperator height={150} />
+          <Seperator height={133} />
           <UserSign style={styles.userSign} />
           <Seperator height={55} />
 
@@ -211,8 +200,8 @@ const SignupScreen = ({ navigation }) => {
                   onEndEditing={() => passwordTest()} />
               </View>
             </LinearGradient>
-          </KeyboardAvoidingView>
-          <Text style={styles.warningTxt}>{errorMessage}</Text>
+            <Text style={styles.warningTxt}>{errorMessage}</Text>
+          </KeyboardAvoidingView>         
           <Seperator height={40} />
 
           <TouchableOpacity

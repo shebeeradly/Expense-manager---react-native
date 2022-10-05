@@ -24,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("*", require("./services/authentication.service").tokenVerification);
+// app.use("/refresh-token", require("./services/authentication.service").tokenRefresh);
 
 app.use('/', indexRouter);
 app.use("/api", authenticationRouter);

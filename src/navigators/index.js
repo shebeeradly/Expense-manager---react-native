@@ -16,9 +16,7 @@ const Navigators = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(GeneralAction.appStart());
-    }, 1500);
+    dispatch(GeneralAction.appStart());
   }, []);
 
   return (
@@ -35,14 +33,21 @@ const Navigators = () => {
         ) :
           !token || token === '' || token === null ? (
             <>
-              { isFirstTimeUse && (
-                <Stack.Screen name="Signup" component={SignupScreen} />
-              )}
-
-              {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
-              {/* <Stack.Screen name="Signup" component={SignupScreen} /> */}
+            {isFirstTimeUse ? (
+               <>
+               <Stack.Screen name="Signup" component={SignupScreen} />
+               <Stack.Screen name="Login" component={LoginScreen} />
+               <Stack.Screen name="Forgot" component={ForgotPassword} />
+               <Stack.Screen name="Splash" component={SplashScreen} />
+             </>
+            ) : (
+              <>
               <Stack.Screen name="Login" component={LoginScreen} />
               <Stack.Screen name="Forgot" component={ForgotPassword} />
+              <Stack.Screen name="Signup" component={SignupScreen} />
+              <Stack.Screen name="Splash" component={SplashScreen} />
+            </>
+            )} 
             </>
           ) : (
             <Stack.Screen name="Screen1" component={Screen1} />

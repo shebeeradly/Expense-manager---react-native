@@ -71,16 +71,16 @@ const LoginScreen = ({ navigation }) => {
       //   dispatch(GeneralAction.setToken(response?.data));
       // });
 
-      // StorageService.getFirstTimeUse().then(() => {
-      //   dispatch(GeneralAction.setFirstTimeUse());
-      // });
+      StorageService.getFirstTimeUse().then(() => {
+        dispatch(GeneralAction.setFirstTimeUse());
+      });
+      if (!response?.status) {
+        setErrorMessage(response?.message)
+      } else {
+        setErrorMessage('')
+      }
       // if (response?.status === true) {
       //   navigation.navigate('Screen1')
-      // }
-      // if (!response?.status) {
-      //   setErrorMessage(response?.message)
-      // } else {
-      //   setErrorMessage('')
       // }
     })
   }
@@ -170,7 +170,7 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.forgTouchTxt}>Forgot Password?</Text>
           </TouchableOpacity>
 
-          <Seperator height={100} />
+          <Seperator height={77} />
 
           <TouchableOpacity
             onPress={() => navigation.navigate('Signup')} >

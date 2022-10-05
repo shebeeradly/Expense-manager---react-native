@@ -16,8 +16,8 @@ const Adexp = ({ navigation }) => {
 
     const [salary, setSalary] = useState(0);
     const [expense, setExpense] = useState(0);
-    const [activeC, setActiveC] = useState("School")
-
+    const [activeC, setActiveC] = useState("School");
+    const [lockC, setLocC] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -33,12 +33,18 @@ const Adexp = ({ navigation }) => {
                     height={Display.setHeight(40)} width={Display.setWidth(100)} />
                 <Seperator height={20} />
                 <View style={styles.alignContainer} >
+                    <TouchableOpacity
+                    onPress={() => setLocC(true)}>
                     <Text style={styles.salaryText}>Salary : {salary}</Text>
+                    </TouchableOpacity>
                     <Text style={styles.dateText}>{moment().format('MMMM')}</Text>
                 </View>
                 <Seperator height={10} />
                 <View style={styles.mainAmount}>
+                    <TouchableOpacity
+                    onPress={() => setLocC(false)}>
                     <Text style={styles.mainAmountTxt}>{expense}</Text>
+                    </TouchableOpacity>
                     <Seperator width={20} />
                     <Text style={styles.inrText}>INR</Text>
                 </View>
@@ -94,7 +100,9 @@ const Adexp = ({ navigation }) => {
                 </View>
                 <Seperator height={25} />
 
-                <Keybords onPress={(model) => setExpense(model.getKeys().join(''))} />
+                <Keybords lock={lockC ? false : true}
+                    onPress={(model) => setExpense(model.getKeys().join(''))}
+                    onSalary={(model) => setSalary(model.getKeys().join(''))} />
             </View>
         </View>
     );

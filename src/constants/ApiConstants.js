@@ -7,6 +7,7 @@ const BACKEND_API = {
     LOGIN: '/login',
     USER_EXIST: '/user-exist',
     USER: '/user',
+    REFRESH_TOKEN: '/refresh-token',
 };
 
 export default { BACKEND_API };
